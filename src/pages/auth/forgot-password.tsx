@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router";
-import { ForgotPasswordAction } from "./auth-actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -9,67 +9,119 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { ZodErrors } from "~/components/ZodErrors";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Link } from "react-router";
+import { forgotPasswordService } from "./auth-service";
+import { ForgotPasswordFormValues, forgotPasswordSchema } from "~/lib/schemas";
 
 export default function ForgotPassword() {
-  const [formState, setFormState] = useState({
-    zodErrors: null,
-    strapiErrors: null,
-    data: null,
+  const [status, setStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string | null;
+  }>({
+    type: null,
     message: null,
   });
 
-  const navigate = useNavigate();
+  // Initialize the form with React Hook Form and Zod resolver
+  const form = useForm<ForgotPasswordFormValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    // Replace this with your actual forgot password action
-    const newState = await ForgotPasswordAction(formState, formData, navigate);
-    setFormState(newState);
-  };
+  // Handle form submission
+  async function onSubmit(values: ForgotPasswordFormValues) {
+    try {
+      await forgotPasswordService(values.email);
+      setStatus({
+        type: "success",
+        message: "Password reset instructions have been sent to your email.",
+      });
+      form.reset();
+    } catch (error: any) {
+      setStatus({
+        type: "error",
+        message:
+          error.response?.data?.error?.message ||
+          "An error occurred. Please try again.",
+      });
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
-        <form onSubmit={handleSubmit}>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">
-              Forgot Password
-            </CardTitle>
-            <CardDescription className="text-center">
-              Enter your email address and we&apos;ll send you a link to reset
-              your password
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">
+            Forgot Password
+          </CardTitle>
+          <CardDescription className="text-center">
+            Enter your email address and we'll send you a link to reset your
+            password
+          </CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent className="space-y-4">
+              {status.message && (
+                <div
+                  className={`text-sm font-medium text-center ${
+                    status.type === "success"
+                      ? "text-green-600"
+                      : "text-destructive"
+                  }`}
+                >
+                  {status.message}
+                </div>
+              )}
+
+              <FormField
+                control={form.control}
                 name="email"
-                type="email"
-                placeholder="Enter your email address"
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <ZodErrors error={formState?.zodErrors?.email} />
-            </div>
-            <Button type="submit" className="w-full">
-              Send Reset Link
-            </Button>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <Link
-              to="/signin"
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
-              Remember your password? Sign In
-            </Link>
-          </CardFooter>
-        </form>
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Sending..." : "Send Reset Link"}
+              </Button>
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <Link
+                to="/signin"
+                className="text-sm text-muted-foreground hover:text-primary"
+              >
+                Remember your password? Sign In
+              </Link>
+            </CardFooter>
+          </form>
+        </Form>
       </Card>
     </div>
   );

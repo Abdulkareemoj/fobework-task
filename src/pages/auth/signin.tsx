@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router";
-import { LoginUserAction } from "./auth-actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -9,78 +10,131 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { ZodErrors } from "~/components/ZodErrors";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { loginUserService } from "./auth-service";
+import { SignInFormValues, signInSchema } from "~/lib/schemas";
 
 export default function SignIn() {
-  const [formState, setFormState] = useState({
-    zodErrors: null,
-    strapiErrors: null,
-    data: null,
-    message: null,
-  });
-
+  const [serverError, setServerError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const newState = await LoginUserAction(formState, formData, navigate);
-    setFormState(newState);
-  };
+  // Initialize the form with React Hook Form and Zod resolver
+  const form = useForm<SignInFormValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      identifier: "",
+      password: "",
+    },
+  });
+
+  // Handle form submission
+  async function onSubmit(values: SignInFormValues) {
+    try {
+      setServerError(null);
+      const response = await loginUserService(values);
+
+      // If successful, store the token and navigate
+      if (response && response.jwt) {
+        localStorage.setItem("token", response.jwt);
+        localStorage.setItem("user", JSON.stringify(response.user));
+        navigate("/dashboard");
+      }
+    } catch (error: any) {
+      // Handle API errors
+      if (error.response?.data?.error) {
+        setServerError(error.response.data.error.message);
+      } else {
+        setServerError(
+          "Invalid credentials or server error. Please try again."
+        );
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
-        <form onSubmit={handleSubmit}>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-center">
-              Sign In
-            </CardTitle>
-            <CardDescription className="text-center">
-              Enter your details to sign in to your account
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="identifier">Email or Username</Label>
-              <Input
-                id="identifier"
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">
+            Sign In
+          </CardTitle>
+          <CardDescription className="text-center">
+            Enter your details to sign in to your account
+          </CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardContent className="space-y-4">
+              {serverError && (
+                <div className="text-sm font-medium text-destructive text-center">
+                  {serverError}
+                </div>
+              )}
+
+              <FormField
+                control={form.control}
                 name="identifier"
-                type="text"
-                placeholder="Enter your email or username"
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email or Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email or username"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <ZodErrors error={formState?.zodErrors?.identifier} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                placeholder="Enter your password"
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <ZodErrors error={formState?.zodErrors?.password} />
-            </div>
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-2 text-sm text-muted-foreground">
-            <div className="flex justify-between w-full">
-              <Link to="/forgot-password" className="hover:text-primary">
-                Forgot Password?
-              </Link>
-              <Link to="/signup" className="hover:text-primary">
-                Don&apos;t have an account?
-              </Link>
-            </div>
-          </CardFooter>
-        </form>
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Signing in..." : "Sign In"}
+              </Button>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-2 text-sm text-muted-foreground">
+              <div className="flex justify-between w-full">
+                <Link to="/forgot-password" className="hover:text-primary">
+                  Forgot Password?
+                </Link>
+                <Link to="/signup" className="hover:text-primary">
+                  Don&apos;t have an account?
+                </Link>
+              </div>
+            </CardFooter>
+          </form>
+        </Form>
       </Card>
     </div>
   );
