@@ -9,7 +9,7 @@ import {
 } from "./ui/dropdown-menu";
 import { User } from "lucide-react";
 import { useState, useEffect } from "react";
-import { logoutUser } from "../pages/auth/auth-actions";
+// import { logoutUser } from "../pages/auth/auth-actions";
 import { ArrowRight, LogOut } from "lucide-react";
 import { getUser } from "../pages/auth/getUser";
 import { Link, useNavigate } from "react-router";
@@ -29,7 +29,7 @@ const LoginBtn = () => {
 
   const handleSignOut = () => {
     setUser(null);
-    logoutUser();
+    // logoutUser();
     navigate("/auth/signin");
   };
 
