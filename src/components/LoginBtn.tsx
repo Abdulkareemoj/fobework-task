@@ -9,7 +9,7 @@ import {
 } from "./ui/dropdown-menu";
 import { User } from "lucide-react";
 import { useState, useEffect } from "react";
-import { LogoutAction } from "../pages/auth/auth-actions";
+import { logoutUser } from "../pages/auth/auth-actions";
 import { ArrowRight, LogOut } from "lucide-react";
 import { getUser } from "../pages/auth/getUser";
 import { Link, useNavigate } from "react-router";
@@ -29,7 +29,7 @@ const LoginBtn = () => {
 
   const handleSignOut = () => {
     setUser(null);
-    LogoutAction();
+    logoutUser();
     navigate("/auth/signin");
   };
 
@@ -62,10 +62,10 @@ const LoginBtn = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <span>Sign In to make an Appointment</span>
+      <span>Sign In to Dashboard</span>
       <ArrowRight />
       <Button variant="outline">
-        <Link to="/signin">Sign in</Link>
+        <Link to="/auth/signin">Sign in</Link>
       </Button>
     </div>
   );
