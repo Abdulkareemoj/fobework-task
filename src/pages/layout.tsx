@@ -1,13 +1,25 @@
-import Header from "~/components/shared/Header";
-import Footer from "~/components/shared/Footer";
+import type { ReactNode } from "react";
+import { Squares } from "../components/shared/squares-background";
+import Header from "../components/shared/Header";
+import Footer from "../components/shared/Footer";
 
-export default function RootLayout({ children }) {
+interface MainLayoutProps {
+  children: ReactNode;
+}
+
+export default function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
+      <Squares
+        className="fixed inset-0 z-[-1]"
+        direction="diagonal"
+        speed={0.5}
+        squareSize={40}
+        borderColor="#333"
+        hoverFillColor="#222"
+      />
       <Header />
-      <main className="flex-grow mx-auto px-4 py-2 md:px-8 lg:px-16">
-        <div className="bg-background shadow-sm rounded-lg p-6">{children}</div>
-      </main>
+      {children}
       <Footer />
     </div>
   );

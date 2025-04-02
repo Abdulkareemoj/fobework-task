@@ -2,14 +2,14 @@ import Home from "./index";
 import SignIn from "./auth/signin";
 import SignUp from "./auth/signup";
 import ForgotPassword from "./auth/forgot-password";
-import Accounts from "./accounts";
+import Accounts from "./dashboard/accounts";
 import Dashboard from "./dashboard";
-import Portfolio from "./portfolio";
-import Transactions from "./transactions";
-import SettingsProfilePage from "./settings";
-import SettingsAccountPage from "./settings/account";
-import SettingsDisplayPage from "./settings/display";
-import SettingsNotificationsPage from "./settings/notifications";
+import Portfolio from "./dashboard/portfolio";
+import Transactions from "./dashboard/transactions";
+import Settings from "./dashboard/settings";
+import Analytics from "./dashboard/analytics";
+import Invoices from "./dashboard/invoices";
+import Payments from "./dashboard/payments";
 const pagesData = [
   {
     path: "/",
@@ -17,7 +17,7 @@ const pagesData = [
     title: "Home",
   },
   {
-    path: "accounts",
+    path: "dashboard/accounts",
     element: <Accounts />,
     title: "accounts",
   },
@@ -42,34 +42,34 @@ const pagesData = [
     title: "Forgot Password",
   },
   {
-    path: "portfolio",
+    path: "dashboard/portfolio",
     element: <Portfolio />,
     title: "portfolio",
   },
   {
-    path: "transactions",
+    path: "dashboard/analytics",
+    element: <Analytics />,
+    title: "analytics",
+  },
+  {
+    path: "dashboard/invoices",
+    element: <Invoices />,
+    title: "invoices",
+  },
+  {
+    path: "dashboard/payments",
+    element: <Payments />,
+    title: "payments",
+  },
+  {
+    path: "dashboard/transactions",
     element: <Transactions />,
     title: "transactions",
   },
   {
-    path: "settings/index",
-    element: <SettingsProfilePage />,
+    path: "dashboard/settings",
+    element: <Settings />,
     title: "Profile Settings",
-  },
-  {
-    path: "settings/account",
-    element: <SettingsAccountPage />,
-    title: "Account Settings",
-  },
-  {
-    path: "settings/display",
-    element: <SettingsDisplayPage />,
-    title: "Display Settings",
-  },
-  {
-    path: "settings/notifications",
-    element: <SettingsNotificationsPage />,
-    title: "Notifications Settings",
   },
 
   // {
