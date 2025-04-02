@@ -1,56 +1,44 @@
-import { Card, CardContent } from "../../../../components/ui/card";
-import { cn } from "../../../../lib/utils";
-import {
-  ArrowUpRight,
-  Users,
-  CreditCard,
-  ShoppingCart,
-  TrendingUp,
-} from "lucide-react";
+import { Card, CardContent } from "../../../components/ui/card";
+import { cn } from "../../../lib/utils";
+import { TrendingUp, DollarSign, Percent } from "lucide-react";
 
-interface OverviewCardsProps {
-  comparisonPeriod: string;
-}
-
-export default function OverviewCards({
-  comparisonPeriod,
-}: OverviewCardsProps) {
+export default function InvestmentsSummary() {
   const summaryItems = [
     {
-      title: "Total Revenue",
-      value: "$45,231.89",
-      change: "+20.1% from " + comparisonPeriod,
+      title: "Total Portfolio Value",
+      value: "$125,850.75",
+      change: "+$3,250.50 (2.7%)",
       trend: "up",
-      icon: CreditCard,
-      color: "text-blue-600 dark:text-blue-400",
-      bgColor: "bg-blue-100 dark:bg-blue-900/30",
+      icon: DollarSign,
+      color: "text-gray-600 dark:text-gray-300",
+      bgColor: "bg-gray-100 dark:bg-[#1F1F23]",
     },
     {
-      title: "New Customers",
-      value: "1,205",
-      change: "+18.2% from " + comparisonPeriod,
+      title: "Today's Change",
+      value: "+$1,250.25",
+      change: "+1.0%",
       trend: "up",
-      icon: Users,
+      icon: TrendingUp,
       color: "text-green-600 dark:text-green-400",
       bgColor: "bg-green-100 dark:bg-green-900/30",
     },
     {
-      title: "Total Orders",
-      value: "3,456",
-      change: "+12.5% from " + comparisonPeriod,
+      title: "Total Return",
+      value: "+$15,850.75",
+      change: "+14.4%",
       trend: "up",
-      icon: ShoppingCart,
-      color: "text-purple-600 dark:text-purple-400",
-      bgColor: "bg-purple-100 dark:bg-purple-900/30",
+      icon: Percent,
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-100 dark:bg-green-900/30",
     },
     {
-      title: "Growth Rate",
-      value: "14.8%",
-      change: "+2.3% from " + comparisonPeriod,
-      trend: "up",
+      title: "Annual Dividend Yield",
+      value: "$3,250.00",
+      change: "2.6%",
+      trend: "neutral",
       icon: TrendingUp,
-      color: "text-orange-600 dark:text-orange-400",
-      bgColor: "bg-orange-100 dark:bg-orange-900/30",
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-100 dark:bg-blue-900/30",
     },
   ];
 
@@ -75,16 +63,20 @@ export default function OverviewCards({
                     "text-xs mt-1 flex items-center",
                     item.trend === "up"
                       ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
+                      : item.trend === "down"
+                      ? "text-red-600 dark:text-red-400"
+                      : "text-gray-600 dark:text-gray-400"
                   )}
                 >
                   {item.change}
-                  <ArrowUpRight
-                    className={cn(
-                      "w-3.5 h-3.5 ml-1",
-                      item.trend === "down" && "rotate-180"
-                    )}
-                  />
+                  {item.trend !== "neutral" && (
+                    <TrendingUp
+                      className={cn(
+                        "w-3.5 h-3.5 ml-1",
+                        item.trend === "down" && "rotate-180"
+                      )}
+                    />
+                  )}
                 </p>
               </div>
               <div className={cn("p-3 rounded-full", item.bgColor)}>

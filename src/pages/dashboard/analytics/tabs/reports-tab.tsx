@@ -22,7 +22,6 @@ import {
   TableRow,
 } from "../../../../components/ui/table";
 import { Download, Printer } from "lucide-react";
-
 const reportTypes = [
   "Financial Summary",
   "Customer Acquisition",
@@ -30,9 +29,18 @@ const reportTypes = [
   "Risk Assessment",
   "Marketing Campaign Analysis",
   "Operational Efficiency",
-];
+] as const; // Use `as const` to make this a readonly tuple of string literals
 
-const dummyReportData = {
+// Define the type for report data
+type ReportType = (typeof reportTypes)[number]; // Union type of all report types
+type ReportData = {
+  id: number;
+  metric: string;
+  value: string;
+};
+
+// Explicitly type `dummyReportData`
+const dummyReportData: Record<ReportType, ReportData[]> = {
   "Financial Summary": [
     { id: 1, metric: "Total Revenue", value: "$1,234,567" },
     { id: 2, metric: "Net Profit", value: "$345,678" },
@@ -47,11 +55,16 @@ const dummyReportData = {
     { id: 4, metric: "Customer Lifetime Value", value: "$1,200" },
     { id: 5, metric: "Churn Rate", value: "2.3%" },
   ],
-  // Add more report types here
+  "Product Performance": [],
+  "Risk Assessment": [],
+  "Marketing Campaign Analysis": [],
+  "Operational Efficiency": [],
 };
 
 export function ReportsTab() {
-  const [selectedReport, setSelectedReport] = useState(reportTypes[0]);
+  const [selectedReport, setSelectedReport] = useState<ReportType>(
+    reportTypes[0]
+  );
 
   const handleGenerateReport = () => {
     console.log(`Generating ${selectedReport} report...`);
@@ -74,7 +87,10 @@ export function ReportsTab() {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex items-center space-x-4">
-          <Select value={selectedReport} onValueChange={setSelectedReport}>
+          <Select
+            value={selectedReport}
+            onValueChange={(value) => setSelectedReport(value as ReportType)}
+          >
             <SelectTrigger className="w-[240px]">
               <SelectValue placeholder="Select report type" />
             </SelectTrigger>
@@ -104,7 +120,7 @@ export function ReportsTab() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {dummyReportData[selectedReport]?.map((row) => (
+              {dummyReportData[selectedReport]?.map((row: ReportData) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.metric}</TableCell>
                   <TableCell>{row.value}</TableCell>

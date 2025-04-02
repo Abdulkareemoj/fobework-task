@@ -1,12 +1,10 @@
 import DashboardLayout from "../../../components/dashboard/layout";
+import InvoicesContent from "./invoices-content";
 
 export default function Invoices() {
   return (
     <DashboardLayout>
-      <div>
-        <h1>Invoices</h1>
-        <p>Invoices page content goes here.</p>
-      </div>
+      <InvoicesContent />
     </DashboardLayout>
   );
 }

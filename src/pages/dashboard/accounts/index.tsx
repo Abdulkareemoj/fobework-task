@@ -1,12 +1,10 @@
 import DashboardLayout from "../../../components/dashboard/layout";
+import BankAccountsContent from "./bank-accounts-content";
 
 export default function Accounts() {
   return (
     <DashboardLayout>
-      <div>
-        <h1>Accounts</h1>
-        <p>Accounts page content goes here.</p>
-      </div>
+      <BankAccountsContent />
     </DashboardLayout>
   );
 }

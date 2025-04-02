@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../../components/ui/card";
-import { OverviewCards } from "./overview-cards";
-import { RevenueChart } from "./revenue-chart";
+import OverviewCards from "./overview-cards";
+import RevenueChart from "./revenue-chart";
 import { RecentTransactions } from "./recent-transactions";
-import { AccountGrowth } from "./account-growth";
+import AccountGrowth from "./account-growth";
 import { TopProducts } from "./top-products";
 import { UserActivity } from "./user-activity";
 import {

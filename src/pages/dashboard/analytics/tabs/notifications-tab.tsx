@@ -16,7 +16,20 @@ import {
   Users,
 } from "lucide-react";
 
-const notificationTypes = [
+// Define the type for notification keys
+type NotificationType =
+  | "account"
+  | "security"
+  | "performance"
+  | "market"
+  | "financial"
+  | "user";
+
+const notificationTypes: {
+  id: NotificationType;
+  label: string;
+  icon: React.ComponentType;
+}[] = [
   { id: "account", label: "Account Activity", icon: Bell },
   { id: "security", label: "Security Alerts", icon: AlertTriangle },
   { id: "performance", label: "Performance Updates", icon: TrendingUp },
@@ -26,7 +39,10 @@ const notificationTypes = [
 ];
 
 export function NotificationsTab() {
-  const [notifications, setNotifications] = useState({
+  // Explicitly type the notifications state
+  const [notifications, setNotifications] = useState<
+    Record<NotificationType, boolean>
+  >({
     account: true,
     security: true,
     performance: false,
@@ -35,7 +51,8 @@ export function NotificationsTab() {
     user: false,
   });
 
-  const toggleNotification = (id) => {
+  // Type the `id` parameter as a key of the `notifications` object
+  const toggleNotification = (id: NotificationType) => {
     setNotifications((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
@@ -51,7 +68,9 @@ export function NotificationsTab() {
           {notificationTypes.map((type) => (
             <div key={type.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <type.icon className="h-5 w-5 text-muted-foreground" />
+                <div className="h-5 w-5 text-muted-foreground">
+                  <type.icon />
+                </div>
                 <span className="text-sm font-medium">{type.label}</span>
               </div>
               <Switch
