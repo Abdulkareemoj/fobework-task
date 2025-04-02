@@ -11,8 +11,8 @@ interface SquaresProps {
 
 export function Squares({
   className = "",
-  direction = "diagonal",
-  speed = 1,
+  // direction = "diagonal",
+  // speed = 1,
   squareSize = 20,
   borderColor = "#333",
   hoverFillColor = "#222",
