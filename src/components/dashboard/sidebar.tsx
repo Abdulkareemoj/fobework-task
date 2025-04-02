@@ -64,21 +64,21 @@ export default function Sidebar() {
       >
         <div className="h-full flex flex-col">
           <Link
-            to="https://Task.com/"
+            to="/"
             target="_blank"
             rel="noopener noreferrer"
             className="h-16 px-6 flex items-center border-b border-gray-200 dark:border-[#1F1F23]"
           >
             <div className="flex items-center gap-3">
               <img
-                src="https://Task.com/logo.svg"
+                src="/src/assets/logo.svg"
                 alt="Acme"
                 width={32}
                 height={32}
                 className="flex-shrink-0 hidden dark:block"
               />
               <img
-                src="https://Task.com/logo-black.svg"
+                src="/src/assets/logo.svg"
                 alt="Acme"
                 width={32}
                 height={32}

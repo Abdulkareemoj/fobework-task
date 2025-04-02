@@ -1,12 +1,11 @@
-import { Card, CardContent } from "../../../../components/ui/card";
-import { cn } from "../../../../lib/utils";
 import {
-  ArrowUpRight,
-  Users,
-  CreditCard,
-  ShoppingCart,
-  TrendingUp,
-} from "lucide-react";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../../../components/ui/card";
+import { cn } from "../../../../lib/utils";
+import { Users, CreditCard, ShoppingCart, TrendingUp } from "lucide-react";
 
 interface OverviewCardsProps {
   comparisonPeriod: string;
@@ -55,45 +54,39 @@ export default function OverviewCards({
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <>
       {summaryItems.map((item) => (
-        <Card
-          key={item.title}
-          className="border-gray-200 dark:border-[#1F1F23]"
-        >
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {item.title}
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {item.value}
-                </p>
-                <p
-                  className={cn(
-                    "text-xs mt-1 flex items-center",
-                    item.trend === "up"
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  )}
-                >
-                  {item.change}
-                  <ArrowUpRight
-                    className={cn(
-                      "w-3.5 h-3.5 ml-1",
-                      item.trend === "down" && "rotate-180"
-                    )}
-                  />
-                </p>
-              </div>
-              <div className={cn("p-3 rounded-full", item.bgColor)}>
-                <item.icon className={cn("w-5 h-5", item.color)} />
-              </div>
+        <Card key={item.title}>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+            <div className={cn("p-2 rounded-full", item.bgColor)}>
+              <item.icon className={cn("h-4 w-4", item.color)} />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{item.value}</div>
+            <p className="text-xs text-muted-foreground">
+              {item.change || "Compared to last month"}
+            </p>
+            <div
+              className={cn(
+                "mt-2 flex items-center text-xs",
+                item.trend === "up"
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-red-600 dark:text-red-400"
+              )}
+            >
+              <TrendingUp
+                className={cn(
+                  "mr-1 h-3 w-3",
+                  item.trend === "down" && "transform rotate-180"
+                )}
+              />
+              {item.change}
             </div>
           </CardContent>
         </Card>
       ))}
-    </div>
+    </>
   );
 }

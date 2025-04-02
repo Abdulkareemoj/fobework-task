@@ -54,7 +54,7 @@ export default function LandingPage() {
                 style={{ "--index": 3 } as React.CSSProperties}
               >
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2nacq7cn1plE9pfvsh7UCZe9Er8zPO.png"
+                  src="/src/assets/hero.jpeg"
                   alt="Task Dashboard Preview"
                   width={1200}
                   height={800}
@@ -173,7 +173,7 @@ export default function LandingPage() {
                   borderWidth={3}
                 />
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-2nacq7cn1plE9pfvsh7UCZe9Er8zPO.png"
+                  src="/src/assets/hero.jpeg"
                   alt="Task Dashboard Demo"
                   className="w-full h-full object-cover"
                 />

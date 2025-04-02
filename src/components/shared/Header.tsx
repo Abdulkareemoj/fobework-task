@@ -10,7 +10,7 @@ export default function Header() {
           {" "}
           <div className="flex items-center gap-2">
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-hk3VK6AaWValwKuEHsnGyNn1WC9p3b.png"
+              src="/src/assets/logo.svg"
               alt="Task Logo"
               width={40}
               height={40}

@@ -10,7 +10,7 @@ import RevenueChart from "./revenue-chart";
 import { RecentTransactions } from "./recent-transactions";
 import AccountGrowth from "./account-growth";
 import { TopProducts } from "./top-products";
-import { UserActivity } from "./user-activity";
+// import { UserActivity } from "./user-activity";
 import {
   Select,
   SelectContent,
@@ -85,7 +85,7 @@ export function OverviewTab() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
+      {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
         <Card className="col-span-4">
           <CardHeader>
             <CardTitle className="text-xl font-semibold">
@@ -96,7 +96,7 @@ export function OverviewTab() {
             <UserActivity />
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </>
   );
 }
