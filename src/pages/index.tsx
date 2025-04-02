@@ -7,7 +7,7 @@ import {
   Clock,
   Users,
 } from "lucide-react";
-
+import Hero from "../assets/hero.jpeg";
 import { Button } from "../components/ui/button";
 import { GlowingEffect } from "../components/shared/glowing-effect";
 import { Link } from "react-router";
@@ -54,7 +54,7 @@ export default function LandingPage() {
                 style={{ "--index": 3 } as React.CSSProperties}
               >
                 <img
-                  src="/src/assets/hero.jpeg"
+                  src={Hero}
                   alt="Task Dashboard Preview"
                   width={1200}
                   height={800}
@@ -173,7 +173,7 @@ export default function LandingPage() {
                   borderWidth={3}
                 />
                 <img
-                  src="/src/assets/hero.jpeg"
+                  src={Hero}
                   alt="Task Dashboard Demo"
                   className="w-full h-full object-cover"
                 />

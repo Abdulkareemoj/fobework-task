@@ -3,6 +3,7 @@ import Sidebar from "./sidebar";
 import TopNav from "./top-nav";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { StoreProvider } from "../../lib/store/store-provider";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -28,7 +29,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <TopNav />
         </header>
         <main className="flex-1 overflow-auto p-6 bg-white dark:bg-[#0F0F12]">
-          {children}
+          <StoreProvider>{children}</StoreProvider>
         </main>
       </div>
     </div>

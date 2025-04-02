@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Button } from "../../components/ui/button";
 import { ThemeToggle } from "../../components/theme-toggle";
+import logo from "../../assets/logo.svg";
 
 export default function Header() {
   return (
@@ -10,7 +11,7 @@ export default function Header() {
           {" "}
           <div className="flex items-center gap-2">
             <img
-              src="/src/assets/logo.svg"
+              src={logo}
               alt="Task Logo"
               width={40}
               height={40}
