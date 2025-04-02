@@ -23,15 +23,14 @@ export default function LandingPage() {
               <div className="flex flex-col justify-center space-y-4 text-center max-w-3xl mx-auto">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none animate-in">
-                    Manage tasks with ease and efficiency
+                    Grow Your Wealth with Smart Investments
                   </h1>
                   <p
                     className="text-muted-foreground md:text-xl animate-in mx-auto"
                     style={{ "--index": 1 } as React.CSSProperties}
                   >
-                    Plan, prioritize, and accomplish your tasks with Task. The
-                    all-in-one task management dashboard for teams and
-                    individuals.
+                    Secure your financial future with our intuitive savings and
+                    investment platform. Start building wealth today.
                   </p>
                 </div>
                 <div
@@ -39,7 +38,7 @@ export default function LandingPage() {
                   style={{ "--index": 2 } as React.CSSProperties}
                 >
                   <Button size="lg" asChild>
-                    <Link to="/signup">Get Started for Free</Link>
+                    <Link to="/signup">Start Investing</Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>
                     <Link to="#demo">
@@ -55,7 +54,7 @@ export default function LandingPage() {
               >
                 <img
                   src={Hero}
-                  alt="Task Dashboard Preview"
+                  alt="Fintech Dashboard Preview"
                   width={1200}
                   height={800}
                   className="w-full object-cover"
@@ -73,11 +72,11 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Powerful Features
+                  Key Features
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  Everything you need to manage your tasks and projects
-                  efficiently
+                  Everything you need to manage your Finances and grow your
+                  Investments.
                 </p>
               </div>
             </div>
@@ -85,37 +84,39 @@ export default function LandingPage() {
               {[
                 {
                   icon: BarChart2,
-                  title: "Project Analytics",
+                  title: "Portfolio Analytics",
                   description:
-                    "Track your project progress with detailed analytics and insights",
+                    "Track your investment performance with detailed analytics and insights.",
                 },
                 {
                   icon: Users,
-                  title: "Team Collaboration",
+                  title: "Financial Planning Tools",
                   description:
-                    "Work together seamlessly with your team members on projects",
+                    "Plan your financial future and collaborate with advisors.",
                 },
                 {
                   icon: Calendar,
-                  title: "Smart Scheduling",
+                  title: "Scheduled Transfers",
                   description:
-                    "Plan your tasks and meetings with an intuitive calendar",
+                    "Schedule recurring deposits and withdrawals easily.",
                 },
                 {
                   icon: CheckCircle,
-                  title: "Task Management",
-                  description: "Create, assign, and track tasks with ease",
+                  title: "Goal Setting",
+                  description:
+                    "Create and track financial goals to achieve your dreams.",
                 },
                 {
                   icon: Clock,
-                  title: "Time Tracking",
-                  description: "Monitor time spent on tasks and projects",
+                  title: "Real-Time Monitoring",
+                  description:
+                    "Monitor your account balances and investment values in real-time.",
                 },
                 {
                   icon: ArrowRight,
-                  title: "Progress Tracking",
+                  title: "Investment Opportunities",
                   description:
-                    "Visualize project progress with intuitive charts",
+                    "Discover new investment opportunities and diversify your portfolio.",
                 },
               ].map((feature, index) => (
                 <div key={index} className="relative min-h-[14rem]">
@@ -155,10 +156,11 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  See Task in Action
+                  See Our Platform in Action
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  Watch how Task can transform your task management workflow
+                  Discover how our platform can simplify your savings and
+                  investment journey.
                 </p>
               </div>
             </div>
@@ -174,7 +176,7 @@ export default function LandingPage() {
                 />
                 <img
                   src={Hero}
-                  alt="Task Dashboard Demo"
+                  alt="Fintech Dashboard Demo"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50">
@@ -213,26 +215,26 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Trusted by Teams
+                  Join Thousands of Happy Investors
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  See what our customers have to say about Task
+                  See what our customers have to say about our platform.
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-2 lg:gap-12">
               {[
                 {
-                  name: "Sarah Johnson",
-                  role: "Product Manager, TechCorp",
+                  name: "Emily Carter",
+                  role: "Financial Analyst",
                   quote:
-                    "Task has transformed how our team manages projects. The analytics and progress tracking features are game-changers for our productivity.",
+                    "This platform has simplified my investment process. The analytics and goal-setting features have helped me stay on track.",
                 },
                 {
-                  name: "Michael Chen",
-                  role: "CTO, StartupX",
+                  name: "David Rodriguez",
+                  role: "Small Business Owner",
                   quote:
-                    "The time tracking feature has helped us identify bottlenecks and optimize our workflow. Task is now an essential part of our daily operations.",
+                    "I've grown my savings significantly using this app. The scheduled transfers and real-time monitoring are incredibly helpful.",
                 },
               ].map((testimonial, index) => (
                 <div key={index} className="relative">
@@ -285,44 +287,42 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Simple Pricing
+                  Flexible Pricing Plans
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  Choose the plan that works for you and your team
+                  Choose a plan that fits your investment needs and budget.
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-3 lg:gap-8">
               {[
                 {
-                  name: "Starter",
+                  name: "Basic",
                   price: "$0",
                   features: [
-                    "Up to 5 projects",
-                    "Basic task management",
-                    "Calendar view",
+                    "Savings Account Access",
+                    "Basic Portfolio Tracking",
+                    "Limited Investment Options",
                   ],
                 },
                 {
-                  name: "Pro",
-                  price: "$12",
+                  name: "Premium",
+                  price: "$9",
                   features: [
-                    "Unlimited projects",
-                    "Advanced task management",
-                    "Team collaboration",
-                    "Time tracking",
-                    "Basic analytics",
+                    "Unlimited Investments",
+                    "Advanced Analytics",
+                    "Personalized Financial Advice",
+                    "Priority Support",
                   ],
                 },
                 {
-                  name: "Enterprise",
-                  price: "$29",
+                  name: "Elite",
+                  price: "$25",
                   features: [
-                    "Everything in Pro",
-                    "Advanced analytics",
-                    "Priority support",
-                    "Custom integrations",
-                    "Advanced security",
+                    "Everything in Premium",
+                    "Dedicated Account Manager",
+                    "Exclusive Investment Opportunities",
+                    "Advanced Security Features",
                   ],
                 },
               ].map((plan, index) => (
@@ -389,11 +389,11 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Ready to Get Started?
+                  Ready to Start Building Your Future?
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mx-auto">
-                  Join thousands of teams already using Task to boost their
-                  productivity
+                  Join thousands of investors already growing their wealth with
+                  our platform.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -401,7 +401,7 @@ export default function LandingPage() {
                   <Link to="/signup">Sign Up for Free</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link to="/contact">Contact Sales</Link>
+                  <Link to="/contact">Talk to an Advisor</Link>
                 </Button>
               </div>
             </div>
