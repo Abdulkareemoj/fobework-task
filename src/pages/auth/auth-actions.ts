@@ -67,9 +67,11 @@ export const loginUser = async (
 };
 
 // Logout action
-export const logoutUser = (navigate: (path: string) => void) => {
+export const logoutUser = (navigate?: (path: string) => void) => {
   removeAuthToken();
-  navigate("/auth/signin");
+  if (navigate) {
+    navigate("/auth/signin");
+  }
 };
 
 // Forgot password action - compatible with React Hook Form

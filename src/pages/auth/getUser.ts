@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { getAuthToken } from "./get-token";
 
 // Mock user database - same as in auth-service.ts
