@@ -1,84 +1,129 @@
-import axios from "axios";
+// Mock user database
+const mockUsers = [
+  {
+    id: 1,
+    username: "testuser",
+    email: "test@example.com",
+    password: "password123", // In a real app, never store passwords in plain text
+  },
+];
 
-const baseUrl = import.meta.env.VITE_STRAPI_BASE_URL;
+// Simulate API delay
+const simulateDelay = (ms = 800) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
-if (!baseUrl) {
-  throw new Error("STRAPI_BASE_URL is not defined");
-}
+// Mock register service
+export async function registerUserService(userData: {
+  username: string;
+  email: string;
+  password: string;
+}) {
+  await simulateDelay();
 
-export async function registerUserService(userData) {
-  const url = new URL("/api/auth/local/register", baseUrl);
+  // Check if user already exists
+  const userExists = mockUsers.some(
+    (user) =>
+      user.email === userData.email || user.username === userData.username
+  );
 
-  try {
-    const response = await axios.post(url.href, userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        "Registration Service Error:",
-        error.response?.data || error.message
-      );
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
-  }
-}
-
-export async function loginUserService(userData) {
-  const url = new URL("/api/auth/local", baseUrl);
-  console.log(`Login URL: ${url.href}`);
-  try {
-    const response = await axios.post(url.href, userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log("Login Response:", response.data); // Log the response data
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        "Login Service Error:",
-        error.response?.data || error.message
-      );
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
-  }
-}
-
-export async function forgotPasswordService(email) {
-  const url = new URL("/api/auth/forgot-password", baseUrl);
-
-  try {
-    const response = await axios.post(
-      url.href,
-      { email },
-      {
-        headers: {
-          "Content-Type": "application/json",
+  if (userExists) {
+    // Simulate API error response
+    throw {
+      response: {
+        data: {
+          error: {
+            message: "Email or username already exists",
+          },
         },
-      }
-    );
-
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(
-        "Forgot Password Service Error:",
-        error.response?.data || error.message
-      );
-    } else {
-      console.error("Unexpected Error:", error);
-    }
-    throw error;
+      },
+    };
   }
+
+  // Create new user
+  const newUser = {
+    id: mockUsers.length + 1,
+    username: userData.username,
+    email: userData.email,
+    password: userData.password,
+  };
+
+  mockUsers.push(newUser);
+
+  // Return mock response
+  return {
+    jwt: "mock-jwt-token-" + Math.random().toString(36).substring(2),
+    user: {
+      id: newUser.id,
+      username: newUser.username,
+      email: newUser.email,
+    },
+  };
+}
+
+// Mock login service
+export async function loginUserService(userData: {
+  identifier: string;
+  password: string;
+}) {
+  await simulateDelay();
+
+  // Find user by email or username
+  const user = mockUsers.find(
+    (user) =>
+      user.email === userData.identifier ||
+      user.username === userData.identifier
+  );
+
+  // Check if user exists and password matches
+  if (!user || user.password !== userData.password) {
+    // Simulate API error response
+    throw {
+      response: {
+        data: {
+          error: {
+            message: "Invalid identifier or password",
+          },
+        },
+      },
+    };
+  }
+
+  // Return mock response
+  return {
+    jwt: "mock-jwt-token-" + Math.random().toString(36).substring(2),
+    user: {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    },
+  };
+}
+
+// Mock forgot password service
+export async function forgotPasswordService(email: string) {
+  await simulateDelay();
+
+  // Check if user exists
+  const user = mockUsers.find((user) => user.email === email);
+
+  if (!user) {
+    // Simulate API error response
+    throw {
+      response: {
+        data: {
+          error: {
+            message: "No user found with this email",
+          },
+        },
+      },
+    };
+  }
+
+  // In a real app, this would send an email
+  console.log(`Password reset link would be sent to ${email}`);
+
+  // Return mock response
+  return {
+    ok: true,
+  };
 }

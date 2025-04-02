@@ -1,156 +1,92 @@
 import { z } from "zod";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router";
-
+import { setAuthToken, removeAuthToken } from "./get-token";
 import {
   registerUserService,
   loginUserService,
   forgotPasswordService,
 } from "./auth-service";
+import { schemaRegister, schemaLogin } from "../../lib/schemas";
 
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  domain: import.meta.env.VITE_HOST ?? "localhost",
-  secure: import.meta.env.NODE_ENV === "production",
+// Register user action - compatible with React Hook Form
+export const registerUser = async (
+  data: z.infer<typeof schemaRegister>,
+  navigate: (path: string) => void
+) => {
+  try {
+    const response = await registerUserService(data);
+
+    if (response && response.jwt) {
+      // Store token in both cookies and localStorage
+      setAuthToken(response.jwt);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      navigate("/dashboard");
+      return { success: true };
+    }
+
+    return {
+      success: false,
+      message: "Registration failed. Please try again.",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.error?.message || "An unexpected error occurred",
+      errors: error.response?.data?.error?.details || {},
+    };
+  }
 };
 
-const schemaRegister = z.object({
-  username: z.string().min(3).max(20, {
-    message: "Username must be between 3 and 20 characters",
-  }),
-  password: z.string().min(6).max(100, {
-    message: "Password must be between 6 and 100 characters",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address",
-  }),
-});
+// Login user action - compatible with React Hook Form
+export const loginUser = async (
+  data: z.infer<typeof schemaLogin>,
+  navigate: (path: string) => void
+) => {
+  try {
+    const response = await loginUserService(data);
 
-export const RegisterUserAction = (prevState, formData) => {
-  const navigate = useNavigate();
-  const validatedFields = schemaRegister.safeParse({
-    username: formData.get("username"),
-    password: formData.get("password"),
-    email: formData.get("email"),
-  });
+    if (response && response.jwt) {
+      // Store token in both cookies and localStorage
+      setAuthToken(response.jwt);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      navigate("/dashboard");
+      return { success: true };
+    }
 
-  if (!validatedFields.success) {
     return {
-      ...prevState,
-      zodErrors: validatedFields.error.flatten().fieldErrors,
-      strapiErrors: null,
-      message: "Missing Fields. Failed to Register.",
+      success: false,
+      message: "Login failed. Please check your credentials.",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.response?.data?.error?.message || "Invalid credentials",
+      errors: error.response?.data?.error?.details || {},
     };
   }
-
-  const responseData = registerUserService(validatedFields.data);
-
-  if (!responseData) {
-    return {
-      ...prevState,
-      strapiErrors: null,
-      zodErrors: null,
-      message: "Ops! Something went wrong. Please try again.",
-    };
-  }
-
-  if (responseData.error) {
-    return {
-      ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
-      message: "Failed to Register.",
-    };
-  }
-
-  Cookies.set("jwt", responseData.jwt, config);
-  navigate()("/dashboard");
 };
 
-const schemaLogin = z.object({
-  identifier: z
-    .string()
-    .min(3, {
-      message: "Identifier must have at least 3 or more characters",
-    })
-    .max(20, {
-      message: "Please enter a valid username or email address",
-    }),
-  password: z
-    .string()
-    .min(6, {
-      message: "Password must have at least 6 or more characters",
-    })
-    .max(100, {
-      message: "Password must be between 6 and 100 characters",
-    }),
-});
-
-export const LoginUserAction = (prevState, formData) => {
-  const navigate = useNavigate();
-  const validatedFields = schemaLogin.safeParse({
-    identifier: formData.get("identifier"),
-    password: formData.get("password"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      ...prevState,
-      zodErrors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields. Failed to Login.",
-    };
-  }
-
-  const responseData = loginUserService(validatedFields.data);
-
-  if (!responseData) {
-    return {
-      ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
-      message: "Oops! Something went wrong. Please try again.",
-    };
-  }
-
-  if (responseData.error) {
-    return {
-      ...prevState,
-      strapiErrors: responseData.error,
-      zodErrors: null,
-      message: "Failed to Login.",
-    };
-  }
-
-  Cookies.set("jwt", responseData.jwt);
-  navigate("/dashboard");
+// Logout action
+export const logoutUser = (navigate: (path: string) => void) => {
+  removeAuthToken();
+  navigate("/auth/signin");
 };
 
-export const LogoutAction = () => {
-  const navigate = useNavigate();
-  Cookies.set("jwt", "", { ...config, maxAge: 0 });
-  navigate()("/");
-};
-
-export const ForgotPasswordAction = (prevState, formData) => {
-  const navigate = useNavigate();
-  const email = formData.get("email");
-
-  if (!email) {
+// Forgot password action - compatible with React Hook Form
+export const forgotPassword = async (data: { email: string }) => {
+  try {
+    await forgotPasswordService(data.email);
     return {
-      ...prevState,
-      zodErrors: { email: ["Please enter a valid email address"] },
-      message: "Missing Fields. Failed to Send Reset Link.",
+      success: true,
+      message:
+        "If your email exists in our system, you will receive a password reset link.",
     };
-  }
-  navigate()("/");
-  const responseData = forgotPasswordService(email);
-  if (!responseData) {
+  } catch (error: any) {
+    // For security reasons, we don't want to reveal if the email exists or not
     return {
-      ...prevState,
-      strapiErrors: null,
-      zodErrors: null,
-      message: "Ops! Something went wrong. Please try again.",
+      success: true, // Still return success even on error
+      message:
+        "If your email exists in our system, you will receive a password reset link.",
     };
   }
 };
