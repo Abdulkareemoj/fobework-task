@@ -1,54 +1,52 @@
-# React + TypeScript + Vite
+# Task Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Task Dashboard](https://fobework-task.vercel.app/)
 
-Currently, two official plugins are available:
+A modern, responsive dashboard application built with Next.js, featuring comprehensive financial management tools, dark/light mode, and robust state management.
+Assessment for Frontend Developer at Fobework.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## Expanding the ESLint configuration
+- **Modern UI**: Clean, responsive interface with light and dark mode support
+- **Financial Management**: Track transactions, invoices, payments, bank accounts, and investments
+- **Dashboard Analytics**: Visual data representation with charts and metrics
+- **State Management**: Zustand-powered state management for seamless user experience
+- **Authentication**: User authentication with protected routes
+- **Responsive Design**: Fully responsive across all device sizes
+- **Theme Switching**: Seamless light/dark mode toggle with persistent preferences
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Technologies
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Framework**: [React](https://reactjs.org/)
+- **Routing**: [React Router](https:///)
+- **Vite**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **TypeScript**: For type safety and better developer experience
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📦 Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/kokonut-dashboard.git
+   cd task
+   ```
+2. Install dependencies:
+3. ```bash
+    # Using npm
+    npm install
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+    # Or using yarn
+    yarn install
+
+    # Or using pnpm
+   pnpm install
+   ```
+
+4. Start the development server:
+   ```bash
+    pnpm dev
+   ```
+5. Open your browser and navigate to `http://localhost:5173`
